@@ -12,7 +12,7 @@ import tornado.ioloop
 import tornado.locks
 import tornado.web
 from tornado.httpserver import HTTPServer
-
+import socketio
 from handlers import MainHandler
 
 # load config.yml
@@ -40,6 +40,7 @@ class Application(tornado.web.Application):  # 引入Application类，重写方�
             tornado.web.url(r'/', MainHandler.IndexHandler, name='index'),
             tornado.web.url(r'/login', MainHandler.LoginHandler, name='login'),
             tornado.web.url(r'/logout', MainHandler.LogoutHandler, name='logout'),
+            (r"/socket.io/", socketio.get_tornado_handler(sio))
         ]
         settings = dict(
             debug=config["debug_mode"],  # 调试模式，修改后自动重启服务，不需要自动重启，生产情况下切勿开启，安全性
