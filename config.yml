@@ -1,0 +1,11 @@
+debug_mode: 1
+server:
+  port: 5003
+ssl_key:
+ssl_cert:
+db:
+  host: 127.0.0.1
+  port: 3306
+  user: root
+  pwd: 89914062
+  database: eiko

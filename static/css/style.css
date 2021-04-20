@@ -1,0 +1,88 @@
+html,body{font-family: Arial,sans-serif;background: #ffffff;margin:0 auto;padding:0;color: #666666;zoom:1;font-size: 16px;}
+@media screen and (max-width:640px) {
+html{font-size:14px;}
+}
+input,textarea,button{font: Arial,sans-serif;}
+*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;font-style: normal;}
+article,aside,dialog,figure,footer,header,menu,nav,section,dd{display:block}
+dd,div,dl,dt,footer,form,header,li,nav,ol,section,ul{margin:0;padding:0;list-style:none;}
+h1,h2,h3,h4,h5,h6,p{margin:0;padding:0;word-break: break-word;}
+input,select,textarea{-webkit-border-radius:0;border-radius:0}
+button,input,input:focus,select,textarea{outline:0}
+textarea{resize:none}
+input,select,textarea{margin:0;padding:0;border:none;background:none}
+article,aside,figcaption,figure,footer,header,hgroup,nav,section{display:block}
+figcaption,figure{margin:0;padding:0}
+audio,canvas,progress,video{display:inline-block;vertical-align:baseline}
+img{max-width:100%;border:none;border:0;vertical-align:middle;}
+a{color: #282828;text-decoration:none;noline:-webkit-tap-highlight-color:transparent;transition: all 0.5s;cursor: pointer;}
+a:hover{outline:0;text-decoration:none;}
+::-webkit-scrollbar{width:7px;height:7px;background-color:#F5F5F5}
+::-webkit-scrollbar-track{border-radius:10px;background:#fff}
+::-webkit-scrollbar-thumb{background-color: #738091;}
+.clear::before,
+.clear::after{content:"";display: block;line-height: 0;height: 0;visibility: hidden;clear:both;}
+.overhidden{overflow: hidden;}
+.tc{text-align: center;}
+.tr{text-align: right;}
+.ac{align-items: center;}
+.al{align-items: left;}
+.jc{justify-content: center;}
+.ud{flex-direction:column;}
+.ur{flex-direction: row-reverse;}
+.big_en{text-transform: uppercase;}
+.tb_en{font-family: "TrumpGothicEast_bold";}
+
+@media screen and (min-width: 1019px) {
+.main{max-width: calc(((75vh) / 6) * 8);margin:0 auto;}
+}
+@media screen and (max-width: 1020px) {
+.main{margin:0 auto;padding: 0 1vw;}
+}
+
+.camera{text-align:center;margin: auto;margin-bottom: 30px;height: 75vh;width: calc(((75vh) / 6) * 8);}
+@media screen and (max-width:1200px) {
+.camera{height:50vh;width: 100%;}
+}
+
+.c_buttons{display:flex;justify-content: center;margin-bottom: 50px;}
+.c_buttons button{margin-right:15px;}
+.c_buttons button:last-child{margin-right:0;}
+.text_input,.textarea_input{width:100%;padding: 7px;font-size: 15px;border: 1px #ccc solid;background: #fff;color: #828282;line-height: 28px;text-transform: capitalize;text-indent: 60px;box-shadow: #e8e8e8 1px 6px 5px 0;}
+.text_input::-webkit-input-placeholder,.textarea_input::-webkit-input-placeholder{color: #545454;font-family:"Microsoft YaHei";}
+.textarea_input{height: 98px;}
+.c_button {background: #868686;border: none;color: #fff;padding: 12px;text-transform: capitalize;cursor: pointer;transition: all 0.5s;display: inline-block;font-size: 1rem;box-shadow: rgba(0,0,0,20%) 3px 3px 5px 0;text-align: center;width: 50%;}
+.c_button:hover{opacity:0.7;}
+
+
+.page_top{display: flex;justify-content: space-between;margin-bottom: 30px;align-items: center;}
+.page_tit{font-size:18px;color:#000;padding: 15px 0;}
+.df_tabs{/* overflow: hidden; */}
+.df_tabs a{padding: 10px 30px;background: #f5f5f5;box-shadow: rgb(0 0 0 / 10%) 3px 3px 5px 0;display: inline-block;color: #000;line-height: 1;margin-right: 15px;font-size: 0.8rem;}
+.df_tabs a:last-child{margin-right:0;}
+.df_tabs a:hover,.df_tabs a.active{background-color:#444;color:#fff;}
+.data_row{}
+.data_row dt{transform: rotateX(90deg);transform-origin: top left;height: 0;transition: all 0.5s;}
+.data_row dt.active{transform: rotateX(0deg);height:auto;}
+.data_form{font-size: 18px;border-top: 1px solid #dcdfe6;border-left: 1px solid #dcdfe6;color: #606266;}
+.df_tit{font-size:22px;font-weight: bold;color: #606266;vertical-align: bottom;background: linear-gradient(#f4f5f8,#f1f3f6);}
+.df_con{}
+.df_item{display: flex;justify-content: space-between;border-bottom: 1px solid #dcdfe6;}
+.df_item.active{background:#eee}
+.df_item li{width:15%;text-align: center;padding: 15px;border-right: 1px solid #dcdfe6;}
+.df_item li.big{width: 85%;}
+
+button:hover, input[type=button]:hover {
+    background: rgb(9, 147, 240);
+}
+
+button:active, input[type=button]:active {
+    background: rgb(10, 118, 190);
+}
+
+button[disabled], input[type=button][disabled] {
+    background: none;
+    border: 1px solid rgb(187, 181, 181);
+    color: gray;
+    text-shadow: none;
+}
