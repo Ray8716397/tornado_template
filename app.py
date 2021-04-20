@@ -12,13 +12,12 @@ import tornado.ioloop
 import tornado.locks
 import tornado.web
 from tornado.httpserver import HTTPServer
-import socketio
-from handlers import MainHandler
+
+from handlers import BaseHandler
+from handlers.seller import *
 
 # load config.yml
 config = yaml.safe_load(open("config.yml"))
-
-users_ws_count = {}  # [req sid]
 
 
 async def maybe_create_tables(db):
@@ -37,10 +36,9 @@ class Application(tornado.web.Application):  # 引入Application类，重写方�
     def __init__(self, db):
         self.db = db
         handlers = [
-            tornado.web.url(r'/', MainHandler.IndexHandler, name='index'),
-            tornado.web.url(r'/login', MainHandler.LoginHandler, name='login'),
-            tornado.web.url(r'/logout', MainHandler.LogoutHandler, name='logout'),
-            (r"/socket.io/", socketio.get_tornado_handler(sio))
+            tornado.web.url(r'/', BaseHandler.IndexHandler, name='index'),
+            tornado.web.url(r'/login', SellerHandler.LoginHandler, name='login'),
+            tornado.web.url(r'/logout', SellerHandler.LogoutHandler, name='logout'),
         ]
         settings = dict(
             debug=config["debug_mode"],  # 调试模式，修改后自动重启服务，不需要自动重启，生产情况下切勿开启，安全性
@@ -52,15 +50,15 @@ class Application(tornado.web.Application):  # 引入Application类，重写方�
             pycket={  # 固定写法packet，用于保存用户登录信息
                 'engine': 'redis',
                 'storage': {
-                    'host': 'localhost',
-                    'port': 6379,
-                    'db_sessions': 15,
-                    'db_notifications': 11,
+                    'host': config["pycket"]["redis_host"],
+                    'port': config["pycket"]["redis_port"],
+                    'db_sessions': config["pycket"]["redis_sessions"],
+                    'db_notifications': config["pycket"]["redis_notifications"],
                     'max_connections': 2 ** 33,
                 },
                 'cookie': {
-                    'expires_days': 1,
-                    'max_age': 100
+                    'expires_days': config["pycket"]["expires_days"],
+                    'max_age': config["pycket"]["max_age"]
                 }
             }
         )
@@ -89,14 +87,14 @@ async def main():
         else:
             # 多进程启动
             server = HTTPServer(app)
-            server.ssl_options = {"certfile": config["server"].get("ssl_key"),
-                                  "keyfile": config["server"].get("ssl_cert")}
+            server.ssl_options = {"certfile": config["server"]["ssl_key"],
+                                  "keyfile": config["server"]["ssl_cert"]}
             # 在Linux系统bind方法不起作用，需要使用listen；在macOS系统listen方法不起作用，需要使用bind
             if sys.platform == 'linux':
                 server.listen(port)
             else:
                 server.bind(port)
-            server.start(num_processes=0)
+            server.start(num_processes=config["server"]["num_processes"])
         # the server will simply run until interrupted
         # with Ctrl-C, but if you want to shut down more gracefully,
         # call shutdown_event.set().
