@@ -3,4 +3,4 @@
 # @LAST_MODIFIED: 2021/4/20 下午2:19
 # @FILE: __init__.py.py
 # @AUTHOR: Ray
-__all__ = ['BaseHandler', 'admin', 'guest', 'seller']
+__all__ = ['BaseHandler', 'IndexHandler', 'admin', 'guest', 'seller']

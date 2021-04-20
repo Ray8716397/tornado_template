@@ -8,10 +8,12 @@ import sys
 import yaml
 
 import aiomysql
+import aiomcache
 import tornado.ioloop
 import tornado.locks
 import tornado.web
 from tornado.httpserver import HTTPServer
+from aiocache import Cache
 
 from handlers import BaseHandler
 from handlers.seller import *
@@ -33,8 +35,9 @@ async def maybe_create_tables(db):
 
 
 class Application(tornado.web.Application):  # 引入Application类，重写方法，这样做的好处在于可以自定义，添加另一些功能
-    def __init__(self, db):
+    def __init__(self, db, cache):
         self.db = db
+        self.cache = cache
         handlers = [
             tornado.web.url(r'/', BaseHandler.IndexHandler, name='index'),
             tornado.web.url(r'/login', SellerHandler.LoginHandler, name='login'),
@@ -73,14 +76,15 @@ async def main():
 
     # Create the global connection pool.
     async with aiomysql.create_pool(
-            host='127.0.0.1',
-            port=3306,
-            user='root',
-            password='89914062',
-            db='eiko',
+            host=config["db"]["host"],
+            port=config["db"]["port"],
+            user=config["db"]["user"],
+            password=str(config["db"]["pwd"]),
+            db=config["db"]["database"],
     ) as db:
+        cache = Cache(Cache.MEMORY)
         await maybe_create_tables(db)
-        app = Application(db)
+        app = Application(db, cache)
         if debug_mode:
             # 单进程启动
             app.listen(port)
