@@ -8,8 +8,25 @@ from typing import Optional, Awaitable
 import tornado.web
 import tornado.util
 
+from utils.async_authenticated import async_authenticated
+
 
 class BaseHandler(tornado.web.RequestHandler, SessionMixin):
+    # def set_default_headers(self):
+    #     """
+    #     通用的request请求。
+    #     在每次请求前添加头信息。
+    #     """
+    #     # 允许跨域
+    #     self.set_header('Access-Control-Allow-Origin', '*')
+    #     self.set_header("Access-Control-Allow-Headers", "Content-Type,Authorization")
+    #     self.set_header('Access-Control-Allow-Methods', 'POST, GET, DELETE, PUT, PATCH, OPTIONS')
+
+    # 这个函数是必要的，有些浏览器或者测试工具在访问之前都会预先访问，你不写的话会导致出错的
+    # 例如vue一般需要访问options方法
+    def options(self):
+        self.finish()
+
     def row_to_obj(self, row, cur):
         """Convert a SQL row to an object supporting dict and attribute access."""
         obj = tornado.util.ObjectDict()
@@ -55,11 +72,12 @@ class BaseHandler(tornado.web.RequestHandler, SessionMixin):
         pass
 
     def get_current_user(self):  # 重写get_current_user()方法
-        return self.session.get('id', None)  # session是一种会话状态，跟数据库的session可能不一样
+        return self.session.get('user_id', None)  # session是一种会话状态，跟数据库的session可能不一样
+        # pass
 
 
 class IndexHandler(BaseHandler):
-    @tornado.web.authenticated  # @tornado.web.authenticated装饰器包裹get方法时，表示这个方法只有在用户合法时才会调用，authenticated装饰器会调用get_current_user()方法获取current_user的值，若值为False，则重定向到登录url装饰器判断有没有登录，如果没有则跳转到配置的路由下去，但是要在app.py里面设置login_url
+    @async_authenticated  # @tornado.web.authenticated装饰器包裹get方法时，表示这个方法只有在用户合法时才会调用，authenticated装饰器会调用get_current_user()方法获取current_user的值，若值为False，则重定向到登录url装饰器判断有没有登录，如果没有则跳转到配置的路由下去，但是要在app.py里面设置login_url
     async def get(self, *args, **kwargs):
         res = await self.query("SELECT * FROM admin LIMIT %s", 1)
         await self.application.cache.set('key', 'value')

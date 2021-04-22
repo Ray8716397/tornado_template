@@ -4,9 +4,9 @@
 # @FILE: AdminHandler.py
 # @AUTHOR: Ray
 import aiofiles
+import tornado.web
 
 from handlers.BaseHandler import BaseHandler
-from utils.async_authenticated import async_authenticated
 
 
 class LoginHandler(BaseHandler):
@@ -18,15 +18,15 @@ class LoginHandler(BaseHandler):
         if self.current_user:  # 若用户已登录
             self.redirect('/')  # 那么直接跳转到主页
         else:
-            # nextname = self.get_argument('next', '')  # 将原来的路由赋值给nextname
-            await self.render('login.html', msg='')  # 否则去登录界面
+            nextname = self.get_argument('next', '')  # 将原来的路由赋值给nextname
+            await self.render('login.html', nextname=nextname, msg='')  # 否则去登录界面
 
     async def post(self, *args, **kwargs):
-        user_id = self.get_argument('user_id', None)
-        res = await self.queryone("SELECT COUNT(id) FROM seller where id=%s", user_id)
+        username = self.get_argument('user_id', None)
+
+        res = await self.queryone("SELECT COUNT(id) FROM users where email=%s", username)
         if res['COUNT(id)']:
-            self.session.set('user_id', user_id)  # 将前面设置的cookie设置为username，保存用户登录信息
-            self.session.set('user_type', 'seller')
+            self.session.set('id', username)  # 将前面设置的cookie设置为username，保存用户登录信息
             self.redirect('/')
         else:
             await self.render('login.html', title="michimura", msg='ユーザが存在しません')  # 不通过，有问题
@@ -61,8 +61,7 @@ class LogoutHandler(BaseHandler):
     """
     登出
     """
-
-    @async_authenticated
+    @tornado.web.authenticated
     async def get(self, *args, **kwargs):
         # self.session.set('user_info','') #将用户的cookie清除
         self.clear_all_cookies()
@@ -74,7 +73,6 @@ class UploadHandler(BaseHandler):
     """
     上传
     """
-
     async def post(self):
         ret_data = {}
 

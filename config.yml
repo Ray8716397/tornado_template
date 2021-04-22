@@ -9,7 +9,7 @@ db:
   port: 3306
   user: root
   pwd: 89914062
-  database: eiko
+  database: HouseSale
 pycket:
   redis_host: 127.0.0.1
   redis_port: 6379
