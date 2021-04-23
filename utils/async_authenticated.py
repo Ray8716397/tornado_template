@@ -9,31 +9,20 @@ import functools
 import jwt
 
 
-def async_authenticated(method):
-    @functools.wraps(method)
-    async def wrapper(self, *args, **kwargs):
-        res_data = {}
-        user_id = self.session.get("user_id")
-        user_type = self.session.get("user_type")
-        if user_id and user_type == 'seller':
-            return await method(self, *args, **kwargs)
-        else:
-            self.redirect('/seller/login')
+def async_authenticated(required_user_type="seller"):
+    @functools.wraps(required_user_type)
+    def decorator(method):
+        @functools.wraps(method)
+        async def wrapper(self, *args, **kwargs):
+            user_id = self.session.get(f"{required_user_type}_id")
+            if user_id:
+                return await method(self, *args, **kwargs)
+            else:
+                self.redirect(f"/{required_user_type}/login")
 
-    return wrapper
+        return wrapper
 
-
-def admin_async_authenticated(method):
-    @functools.wraps(method)
-    async def wrapper(self, *args, **kwargs):
-        res_data = {}
-        user_id = self.session.get("user_id")
-        if user_id:
-            return await method(self, *args, **kwargs)
-        else:
-            self.redirect('/login')
-
-    return wrapper
+    return decorator
 
 
 def create_token(payload, salt, timeout=1):

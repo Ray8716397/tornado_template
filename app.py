@@ -15,6 +15,7 @@ from tornado.httpserver import HTTPServer
 from aiocache import Cache
 
 from handlers import BaseHandler
+from handlers.DefaultHandler import DefaultHandler
 from handlers.seller import *
 
 # load config.yml
@@ -46,6 +47,8 @@ class Application(tornado.web.Application):  # 引入Application类，重写方�
             tornado.web.url(r'/', BaseHandler.IndexHandler, name='index'),
             tornado.web.url(r'/seller/login', SellerHandler.LoginHandler, name='login'),
             tornado.web.url(r'/seller/logout', SellerHandler.LogoutHandler, name='logout'),
+            tornado.web.url(r'/seller/account_register', SellerHandler.AccountRegisterHandler, name='account_register'),
+            tornado.web.url(r'/seller/house_register', SellerHandler.HouseRegisterHandler, name='house_register'),
         ]
         settings = dict(
             debug=config["debug_mode"],  # 调试模式，修改后自动重启服务，不需要自动重启，生产情况下切勿开启，安全性
@@ -68,6 +71,7 @@ class Application(tornado.web.Application):  # 引入Application类，重写方�
                     'max_age': config["pycket"]["max_age"]
                 }
             },
+            default_handler_class=DefaultHandler
         )
 
         super(Application, self).__init__(handlers,

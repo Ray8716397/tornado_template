@@ -12,6 +12,7 @@ from utils.async_authenticated import async_authenticated
 
 
 class BaseHandler(tornado.web.RequestHandler, SessionMixin):
+
     # def set_default_headers(self):
     #     """
     #     通用的request请求。
@@ -77,7 +78,8 @@ class BaseHandler(tornado.web.RequestHandler, SessionMixin):
 
 
 class IndexHandler(BaseHandler):
-    @async_authenticated  # @tornado.web.authenticated装饰器包裹get方法时，表示这个方法只有在用户合法时才会调用，authenticated装饰器会调用get_current_user()方法获取current_user的值，若值为False，则重定向到登录url装饰器判断有没有登录，如果没有则跳转到配置的路由下去，但是要在app.py里面设置login_url
+    @async_authenticated(
+        required_user_type="seller")  # @tornado.web.authenticated装饰器包裹get方法时，表示这个方法只有在用户合法时才会调用，authenticated装饰器会调用get_current_user()方法获取current_user的值，若值为False，则重定向到登录url装饰器判断有没有登录，如果没有则跳转到配置的路由下去，但是要在app.py里面设置login_url
     async def get(self, *args, **kwargs):
         res = await self.query("SELECT * FROM admin LIMIT %s", 1)
         await self.application.cache.set('key', 'value')

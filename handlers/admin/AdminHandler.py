@@ -38,7 +38,7 @@ class RegisterHandler(BaseHandler):
     """
 
     async def get(self, *args, **kwargs):
-        await self.render('register.html', msg='')  # 否则去登录界面
+        await self.render('account_register.html', msg='')  # 否则去登录界面
 
     async def post(self, *args, **kwargs):
         username = self.get_argument('user_id', None)
