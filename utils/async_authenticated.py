@@ -4,15 +4,15 @@
 # @FILE: async_authenticated.py
 # @AUTHOR: Ray
 import datetime
-import functools
+from functools import wraps
 
 import jwt
 
 
 def async_authenticated(required_user_type="seller"):
-    @functools.wraps(required_user_type)
+    @wraps(required_user_type)
     def decorator(method):
-        @functools.wraps(method)
+        @wraps(method)
         async def wrapper(self, *args, **kwargs):
             user_id = self.session.get(f"{required_user_type}_id")
             if user_id:

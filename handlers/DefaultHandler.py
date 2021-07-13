@@ -13,3 +13,5 @@ class DefaultHandler(tornado.web.RequestHandler, ABC):
         # Use prepare() to handle all the HTTP methods
         self.set_status(404)
         self.finish("error: 404")
+
+

@@ -825,7 +825,7 @@ var on_1 = __webpack_require__(/*! ./on */ "./build/on.js");
 var debug = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js")("socket.io-client:socket");
 /**
  * Internal events.
- * These events can't be emitted by the guest.
+ * These events can't be emitted by the user.
  */
 
 
@@ -1885,7 +1885,7 @@ function formatArgs(args) {
 
     if (match === '%c') {
       // We only are interested in the *last* %c
-      // (the guest may have provided their own)
+      // (the user may have provided their own)
       lastC = index;
     }
   });
@@ -1949,7 +1949,7 @@ function load() {
  * Localstorage attempts to return the localstorage.
  *
  * This is necessary because safari throws
- * when a guest disables cookies/localstorage
+ * when a user disables cookies/localstorage
  * and you attempt to access it.
  *
  * @return {LocalStorage}
@@ -3212,7 +3212,7 @@ function polling(opts) {
 
   if (typeof location !== "undefined") {
     var isSSL = "https:" === location.protocol;
-    var port = location.port; // some guest agents have empty `location.port`
+    var port = location.port; // some user agents have empty `location.port`
 
     if (!port) {
       port = isSSL ? 443 : 80;
@@ -3575,7 +3575,7 @@ var XHR = /*#__PURE__*/function (_Polling) {
 
     if (typeof location !== "undefined") {
       var isSSL = "https:" === location.protocol;
-      var port = location.port; // some guest agents have empty `location.port`
+      var port = location.port; // some user agents have empty `location.port`
 
       if (!port) {
         port = isSSL ? 443 : 80;
@@ -3752,7 +3752,7 @@ var Request = /*#__PURE__*/function (_Emitter) {
             if (200 === xhr.status || 1223 === xhr.status) {
               self.onLoad();
             } else {
-              // make sure the `error` event handler that's guest-set
+              // make sure the `error` event handler that's user-set
               // does not throw in the same tick and gets caught here
               setTimeout(function () {
                 self.onError(typeof xhr.status === "number" ? xhr.status : 0);

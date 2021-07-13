@@ -14,7 +14,8 @@ input,select,textarea{margin:0;padding:0;border:none;background:none}
 article,aside,figcaption,figure,footer,header,hgroup,nav,section{display:block}
 figcaption,figure{margin:0;padding:0}
 audio,canvas,progress,video{display:inline-block;vertical-align:baseline}
-img{max-width:100%;border:none;border:0;vertical-align:middle;}
+img{border:none;border:0;vertical-align:middle;}
+/*/var/log/MGToastServer.err.log*/
 a{color: #282828;text-decoration:none;noline:-webkit-tap-highlight-color:transparent;transition: all 0.5s;cursor: pointer;}
 a:hover{outline:0;text-decoration:none;}
 ::-webkit-scrollbar{width:7px;height:7px;background-color:#F5F5F5}
@@ -85,4 +86,19 @@ button[disabled], input[type=button][disabled] {
     border: 1px solid rgb(187, 181, 181);
     color: gray;
     text-shadow: none;
+}
+
+.button {
+    background-color: #e7e7e7; /* Green */
+    border: 1px solid black;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    padding: 3px;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: #eeeeee;
 }

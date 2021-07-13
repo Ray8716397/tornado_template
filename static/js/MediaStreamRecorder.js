@@ -1128,7 +1128,7 @@ function MediaRecorderWrapper(mediaStream) {
             }
         }
 
-        // i.e. stop recording when <video> is paused by the guest; and auto restart recording
+        // i.e. stop recording when <video> is paused by the user; and auto restart recording
         // when video is resumed. E.g. yourStream.getVideoTracks()[0].muted = true; // it will auto-stop recording.
         if (self.ignoreMutedMedia === true) {
             mediaRecorder.ignoreMutedMedia = true;
